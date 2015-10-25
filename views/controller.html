@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>IoT Controller</title>
+    <link rel="stylesheet" type="text/css" href="./controller.css">
+  </head>
+  <body>
+    <h1>IoT Controller</h1>
+    <h2>LED controll</h2>
+      <button class="btn" onclick="led('on')" disabled/>Turn On</button>
+      <button class="btn" onclick="led('off')" disabled/>Turn Off</button>
+    <br>
+    <br>
+    <h2>Button Reciver</h2>
+    <span id='message'>Press the button on your hardware</span>
+
+
+    <script src="http://localhost:{{port}}/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+      /*
+      * Setup
+      */
+
+      //1. specify domain and port of your socket.io server
+      var socket = io.connect('http://localhost:{{port}}');
+
+      //2. Setup socket handler for receiving message
+      //   once message recived, change state of this website
+      socket.on('press', function (data) {
+        var message = document.getElementById("message");
+        message.innerHTML = 'button connected to pin '+ data.pin +' is pressed!';
+      });
+
+      //3. Setup function to emit messages
+      //   this message is broadcasted to your client.js via server.js
+      //   this function is called by onclick on <button>
+      function led(command) {
+        socket.emit('led', {command:command});
+      }
+
+
+      /*
+      * Socket connection controller
+      * buttons are disabled when socket is disconnected
+      */
+      socket.on('connect', function () {
+        var btn = document.getElementsByClassName("btn");
+        for (var i = 0; i < btn.length; i++) {
+          btn[i].disabled = false;
+        }
+      });
+
+      socket.on('disconnect', function (client) {
+        var btn = document.getElementsByClassName("btn");
+        for (var i = 0; i < btn.length; i++) {
+          btn[i].disabled = true;
+        }
+      });
+    </script>
+  </body>
+</html>
