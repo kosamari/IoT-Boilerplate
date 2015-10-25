@@ -9,6 +9,9 @@ The system is divided to of 3 parts.
 0. Controller website `views/controller.html`
 0. Arduino Client `client.js`
 
+![system](https://cloud.githubusercontent.com/assets/4581495/10714262/21408514-7abc-11e5-8edd-b750a590b76b.jpg)
+
+
 ## Demo Setup
 For sample, I've included small code to turn LED on and off from website, & receive message on webserver when button is pressed.
 
