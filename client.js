@@ -3,7 +3,9 @@
 */
 
 //1.  specify domain and port of your socket.io server
-var socket = require('socket.io-client')('http://localhost:5040');
+var host = 'localhost';
+var port = 5040;
+var socket = require('socket.io-client')('http://' + host + ':' + port);
 
 //2.  create instance johnny-five Arduino board.
 var five = require("johnny-five");
